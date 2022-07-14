@@ -414,8 +414,7 @@ def main():
         total_length = len(concatenated_examples[list(examples.keys())[0]])
         # We drop the small remainder, we could add padding if the model supported it instead of this drop, you can
         # customize this part to your needs.
-        if total_length >= block_size:
-            total_length = (total_length // block_size) * block_size
+        total_length = (total_length // block_size) * block_size
         # Split by chunks of max_len.
         result = {
             k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
@@ -435,7 +434,7 @@ def main():
         lm_datasets = tokenized_datasets.map(
             group_texts,
             batched=True,
-            batch_size=100,
+            batch_size=1000,
             num_proc=data_args.preprocessing_num_workers,
             load_from_cache_file=not data_args.overwrite_cache,
             desc=f"Grouping texts in chunks of {block_size}",
